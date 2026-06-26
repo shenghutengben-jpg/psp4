@@ -29,7 +29,7 @@
 * DailySchedule
 * Crew
 
-担当者Aは、選択された日付に対して、その日に勤務するクルーの登録・編集・削除が行える状態まで実装する。
+川原は、選択された日付に対して、その日に勤務するクルーの登録・編集・削除が行える状態まで実装する。
 
 ---
 
@@ -127,7 +127,7 @@ project/
    └─ position_routes.py
 ```
 
-この場合、担当者Aは主に `calendar.html`、`crew_list.html`、`crew_form.html`、`crew_routes.py` を担当し、担当者Bは `timeslot_select.html`、`positioning.html`、`positioning.js`、`position_routes.py` を担当する。
+この場合、川原は主に `calendar.html`、`crew_list.html`、`crew_form.html`、`crew_routes.py` を担当し、藤本は `timeslot_select.html`、`positioning.html`、`positioning.js`、`position_routes.py` を担当する。
 
 ---
 
