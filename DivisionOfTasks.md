@@ -141,7 +141,7 @@ main
 └─ feature/positioning
 ```
 
-藤本は `feature/crew-management` ブランチで作業し、藤本は `feature/positioning` ブランチで作業する。
+川原は `feature/crew-management` ブランチで作業し、藤本は `feature/positioning` ブランチで作業する。
 
 基本的な作業の流れは以下の通りである。
 
