@@ -7,9 +7,6 @@ TIME_PATTERN = re.compile(r"^\d{2}:\d{2}$")
 
 
 def is_valid_time(time_str):
-    """HH:MM形式かつ実在する時刻かどうかを判定する。
-    "24:00" は「日をまたいで退勤する」ことを表す特別な値として許可する。
-    """
     if not TIME_PATTERN.match(time_str):
         return False
 
