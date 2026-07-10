@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-from controllers.crew_controller import get_all_crews, add_crew
-
-print(get_all_crews())
-
-add_crew("藤本","12:00","18:00")
-
-print(get_all_crews())
-=======
 import tkinter as tk
 from views import (
     CalendarView,
@@ -77,4 +68,3 @@ def main():
 
 if __name__ == "__main__":
     main()
->>>>>>> 0fc3607684d8edc0c5c5c0f88c6885027f1d704b
