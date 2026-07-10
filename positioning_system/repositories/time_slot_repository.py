@@ -1,4 +1,3 @@
-# repositories/crew_repository.py
 import json
 from pathlib import Path
 

@@ -1,29 +1,10 @@
 [
   {
     "id": 1,
-    "name": "大山",
-    "start_time": "12:00",
-    "end_time": "18:00"
+    "name": "藤本"
   },
-
   {
     "id": 2,
-    "name": "馬場",
-    "start_time": "15:00",
-    "end_time": "19:00"
-  },
-
-  {
-    "id": 3,
-    "name": "小林",
-    "start_time": "10:00",
-    "end_time": "14:00"
-  },
-
-  {
-    "id": 4,
-    "name": "佐藤",
-    "start_time": "13:00",
-    "end_time": "17:00"
+    "name": "田中"
   }
 ]

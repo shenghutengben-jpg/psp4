@@ -1,8 +1,5 @@
-from controllers.positioning_controller import assign_crew_to_position
-from controllers.positioning_controller import get_assignments_by_date_and_time_slot
+from controllers.crew_controller import get_all_crews
 
-assign_crew_to_position("2026-07-03", 4, 1, 2)
+crews = get_all_crews()
 
-assignments = get_assignments_by_date_and_time_slot("2026-07-03", 4)
-
-print(assignments)
+print(crews)
