@@ -1,34 +1,44 @@
-from controllers.positioning_controller import assign_crew_to_position
-from controllers.positioning_controller import get_assignments_by_date_and_time_slot
 from repositories.assignment_repository import load_assignments
+from repositories.crew_repository import load_crews
+from repositories.time_slot_repository import load_time_slots
+from repositories.position_repository import load_positions
 
 
-date = "2026-07-03"
-time_slot_id = 13
-position_id = 1
-crew_id = 1
+def find_by_id(items, item_id):
+    for item in items:
+        if item["id"] == item_id:
+            return item
+    return None
 
 
-print("=== 配置前 assignments.json ===")
-print(load_assignments())
+def print_assignments_readable():
+    assignments = load_assignments()
+    crews = load_crews()
+    time_slots = load_time_slots()
+    positions = load_positions()
+
+    print("=== 配置情報（見やすい表示） ===")
+
+    for assignment in assignments:
+        crew = find_by_id(crews, assignment["crew_id"])
+        time_slot = find_by_id(time_slots, assignment["time_slot_id"])
+        position = find_by_id(positions, assignment["position_id"])
+
+        crew_name = crew["name"] if crew else "不明なクルー"
+
+        if time_slot:
+            time_text = f'{time_slot["start_time"]}-{time_slot["end_time"]}'
+        else:
+            time_text = "不明な時間帯"
+
+        position_name = position["name"] if position else "不明なポジション"
+
+        print(
+            f'{assignment["date"]} | '
+            f'{time_text} | '
+            f'{position_name} | '
+            f'{crew_name}'
+        )
 
 
-print("\n=== 配置を登録 ===")
-assignment = assign_crew_to_position(
-    date=date,
-    time_slot_id=time_slot_id,
-    position_id=position_id,
-    crew_id=crew_id
-)
-
-print("登録・更新された配置:")
-print(assignment)
-
-
-print("\n=== 配置後 assignments.json ===")
-print(load_assignments())
-
-
-print("\n=== 指定した日付・時間帯の配置一覧 ===")
-assignments = get_assignments_by_date_and_time_slot(date, time_slot_id)
-print(assignments)
+print_assignments_readable()
