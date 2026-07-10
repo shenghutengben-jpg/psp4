@@ -15,6 +15,13 @@ class PositioningApp(tk.Tk):
         self.title("ポジショニング管理システム")
         self.geometry("1200x800")
 
+        # ウィンドウサイズを固定し、最大化・リサイズを禁止する。
+        # pack()は中身のサイズにぴったり合わせて配置されるため、
+        # ウィンドウだけを大きくすると中身とのバランスが崩れて見える。
+        # 各画面をリサイズ対応にするのは工数がかかるため、
+        # 今回は「テスト済みの見た目のまま固定する」方針で対応する。
+        self.resizable(False, False)
+
         self.selected_date = None
         self.selected_time_slot = None
         self.position_assignments = {}
