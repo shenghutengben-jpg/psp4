@@ -64,12 +64,15 @@ class PositionEditView:
         position_frame = tk.LabelFrame(main_frame, text="ポジション")
         position_frame.grid(row=0, column=1, padx=20)
 
-        self.positions = [
-            "イニシ",
+        self.positions = [          
             "カウンター",
-            "スルー",
+            "カウンターランナー",
+            "オーダーテイカー",
+            "キャッシャー",
+            "ポテト",
+            "イニシ",
+            "アッセンブラー",
             "ストッカー",
-            "厨房",
             "休憩"
         ]
 
