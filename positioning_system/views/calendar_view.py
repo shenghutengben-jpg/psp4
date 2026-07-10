@@ -19,7 +19,10 @@ class CalendarView:
             font=("Arial", 14)
         ).pack()
 
-        self.calendar = Calendar(app.container)
+        # date_patternを明示することで、ロケールによってget_date()の
+        # 書式が変わるのを防ぐ。ここを変える場合は
+        # position_edit_view.pyのchange_date()も合わせて直すこと。
+        self.calendar = Calendar(app.container, date_pattern="yyyy-mm-dd")
         self.calendar.pack(pady=20)
 
         tk.Button(
