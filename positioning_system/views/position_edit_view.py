@@ -7,16 +7,12 @@ class PositionEditView:
     def __init__(self, app):
         self.app = app
 
-        # この時間帯専用の配置情報を取り出す（無ければ空のdictを新規作成）。
-        # setdefaultで取り出したdictはapp.position_assignments内の実体への
-        # 参照なので、ここでの変更はそのままapp側にも反映される。
         self.slot_assignments = self.app.position_assignments.setdefault(
             self.app.selected_time_slot, {}
         )
 
         self.available_crews = self.filter_active_crews()
 
-        # すでにこの時間帯で配置済みのクルーは、クルー一覧側から除外しておく
         for crew in self.slot_assignments.values():
             if crew in self.available_crews:
                 self.available_crews.remove(crew)
@@ -57,8 +53,6 @@ class PositionEditView:
         self.position_labels = {}
         self.drag_label = None
         self.dragging_crew = None
-        # ドラッグの開始元。ポジションから始めた場合はそのポジション名、
-        # クルー一覧から始めた場合はNone。
         self.drag_source_position = None
 
         main_frame = tk.Frame(app.container)
@@ -91,8 +85,6 @@ class PositionEditView:
             )
             label.pack(pady=5)
 
-            # ポジションに配置済みのクルーも再度ドラッグできるようにする。
-            # start_position_dragは、そのポジションが空の場合は何もしない。
             label.bind("<Button-1>",
                        lambda e, p=position: self.start_position_drag(e, p))
             label.bind("<B1-Motion>", self.drag_motion)
@@ -100,7 +92,6 @@ class PositionEditView:
 
             self.position_labels[position] = label
 
-            # 前回この時間帯を編集したときの配置が残っていれば表示を復元する
             if position in self.slot_assignments:
                 crew = self.slot_assignments[position]
                 label.config(text=f"{position}：{crew['name']}")
@@ -123,8 +114,6 @@ class PositionEditView:
         active_crews = []
 
         for crew in self.app.dummy_crews:
-            # クルーの勤務時間[start, end)と時間帯[slot_start, slot_end)が
-            # 重なっていれば「その時間帯に出勤している」とみなす。
             if crew["start"] < slot_end and crew["end"] > slot_start:
                 active_crews.append(crew)
 
@@ -165,7 +154,6 @@ class PositionEditView:
         self.drag_label.place(x=x, y=y)
 
     def start_position_drag(self, event, position):
-        # そのポジションに誰も配置されていなければドラッグを開始しない
         crew = self.slot_assignments.get(position)
         if not crew:
             return
@@ -199,12 +187,10 @@ class PositionEditView:
                 break
 
         if dropped_position and dropped_position != source_position:
-            # 移動先に既に別のクルーがいる場合は、そのクルーをクルー一覧へ戻す
             previous_crew = self.slot_assignments.get(dropped_position)
             if previous_crew and previous_crew is not crew:
                 self.available_crews.append(previous_crew)
 
-            # ポジションからポジションへの移動の場合、移動元を空にする
             if source_position:
                 self.slot_assignments.pop(source_position, None)
                 self.position_labels[source_position].config(text=source_position)
@@ -220,8 +206,6 @@ class PositionEditView:
             self.refresh_crews()
 
         elif dropped_position is None and source_position:
-            # ポジション以外の場所へドロップした場合は配置を解除し、
-            # クルーを一覧へ戻す
             self.slot_assignments.pop(source_position, None)
             self.position_labels[source_position].config(text=source_position)
 
@@ -229,10 +213,6 @@ class PositionEditView:
                 self.available_crews.append(crew)
 
             self.refresh_crews()
-
-        # dropped_position == source_position（同じ場所に戻した場合）や、
-        # クルー一覧からドラッグしてポジション以外へ落とした場合は
-        # 何も変更しない
 
         if self.drag_label:
             self.drag_label.destroy()
