@@ -1,6 +1,36 @@
+import re
 from repositories.schedule_repository import load_schedules, save_schedules
 from repositories.crew_repository import load_crews, save_crews
 
+def time_to_minutes(time_text):
+    """
+    '12:00' のような時刻文字列を分に変換する。
+    00:00〜24:00 まで許可する。
+    """
+
+    if not re.match(r"^\d{2}:\d{2}$", time_text):
+        raise ValueError("時刻は 12:00 のように入力してください")
+
+    hour, minute = map(int, time_text.split(":"))
+
+    if hour < 0 or hour > 24:
+        raise ValueError("時は 00〜24 の範囲で入力してください")
+
+    if minute < 0 or minute >= 60:
+        raise ValueError("分は 00〜59 の範囲で入力してください")
+
+    if hour == 24 and minute != 0:
+        raise ValueError("24時台は 24:00 のみ入力できます")
+
+    return hour * 60 + minute
+
+
+def validate_work_time(start_time, end_time):
+    start_minutes = time_to_minutes(start_time)
+    end_minutes = time_to_minutes(end_time)
+
+    if start_minutes >= end_minutes:
+        raise ValueError("出勤時間は退勤時間より前にしてください")
 
 def get_or_create_crew(name):
     crews = load_crews()
@@ -25,6 +55,8 @@ def get_or_create_crew(name):
 
 
 def add_schedule_by_crew_name(date, crew_name, start_time, end_time):
+    validate_work_time(start_time, end_time)
+
     crew = get_or_create_crew(crew_name)
 
     schedules = load_schedules()
@@ -57,3 +89,33 @@ def get_schedules_by_date(date):
             result.append(schedule)
 
     return result
+
+def time_to_minutes(time_text):
+    """
+    '12:00' のような時刻文字列を分に変換する。
+    00:00〜24:00 まで許可する。
+    """
+
+    if not re.match(r"^\d{2}:\d{2}$", time_text):
+        raise ValueError("時刻は 12:00 のように入力してください")
+
+    hour, minute = map(int, time_text.split(":"))
+
+    if hour < 0 or hour > 24:
+        raise ValueError("時は 00〜24 の範囲で入力してください")
+
+    if minute < 0 or minute >= 60:
+        raise ValueError("分は 00〜59 の範囲で入力してください")
+
+    if hour == 24 and minute != 0:
+        raise ValueError("24時台は 24:00 のみ入力できます")
+
+    return hour * 60 + minute
+
+
+def validate_work_time(start_time, end_time):
+    start_minutes = time_to_minutes(start_time)
+    end_minutes = time_to_minutes(end_time)
+
+    if start_minutes >= end_minutes:
+        raise ValueError("出勤時間は退勤時間より前にしてください")
