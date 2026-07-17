@@ -1,44 +1,25 @@
-from repositories.assignment_repository import load_assignments
-from repositories.crew_repository import load_crews
-from repositories.time_slot_repository import load_time_slots
-from repositories.position_repository import load_positions
+import tkinter as tk
+
+from views.calendar_view import CalendarView
 
 
-def find_by_id(items, item_id):
-    for item in items:
-        if item["id"] == item_id:
-            return item
-    return None
+def on_date_selected(date):
+    print("選択された日付:", date)
 
 
-def print_assignments_readable():
-    assignments = load_assignments()
-    crews = load_crews()
-    time_slots = load_time_slots()
-    positions = load_positions()
+def main():
+    root = tk.Tk()
+    root.title("カレンダー画面デバッグ")
+    root.geometry("500x400")
 
-    print("=== 配置情報（見やすい表示） ===")
+    calendar_view = CalendarView(
+        root,
+        on_date_selected=on_date_selected
+    )
+    calendar_view.pack(fill=tk.BOTH, expand=True)
 
-    for assignment in assignments:
-        crew = find_by_id(crews, assignment["crew_id"])
-        time_slot = find_by_id(time_slots, assignment["time_slot_id"])
-        position = find_by_id(positions, assignment["position_id"])
-
-        crew_name = crew["name"] if crew else "不明なクルー"
-
-        if time_slot:
-            time_text = f'{time_slot["start_time"]}-{time_slot["end_time"]}'
-        else:
-            time_text = "不明な時間帯"
-
-        position_name = position["name"] if position else "不明なポジション"
-
-        print(
-            f'{assignment["date"]} | '
-            f'{time_text} | '
-            f'{position_name} | '
-            f'{crew_name}'
-        )
+    root.mainloop()
 
 
-print_assignments_readable()
+if __name__ == "__main__":
+    main()
