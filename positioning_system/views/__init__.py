@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from .calendar_view import CalendarView
 from .crew_form_view import CrewFormView
 from .crew_list_view import CrewListView
@@ -12,5 +11,3 @@ __all__ = [
     "TimeSlotView",
     "PositionEditView",
 ]
-=======
->>>>>>> main
