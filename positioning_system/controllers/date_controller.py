@@ -1,16 +1,14 @@
-from repositories.crew_repository import load_crews, save_crews
 from repositories.schedule_repository import load_schedules, save_schedules
+from repositories.crew_repository import load_crews, save_crews
 
 
 def get_or_create_crew(name):
     crews = load_crews()
 
-    # すでに同じ名前のクルーがいれば、それを返す
     for crew in crews:
         if crew["name"] == name:
             return crew
 
-    # いなければ新しく登録する
     new_id = 1
     if crews:
         new_id = max(crew["id"] for crew in crews) + 1
@@ -27,7 +25,6 @@ def get_or_create_crew(name):
 
 
 def add_schedule_by_crew_name(date, crew_name, start_time, end_time):
-    # 名前からクルーを取得、なければ作成
     crew = get_or_create_crew(crew_name)
 
     schedules = load_schedules()
@@ -48,3 +45,15 @@ def add_schedule_by_crew_name(date, crew_name, start_time, end_time):
     save_schedules(schedules)
 
     return new_schedule
+
+
+def get_schedules_by_date(date):
+    schedules = load_schedules()
+
+    result = []
+
+    for schedule in schedules:
+        if schedule["date"] == date:
+            result.append(schedule)
+
+    return result
