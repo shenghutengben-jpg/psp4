@@ -1,3 +1,7 @@
+"""
+日付選択画面。
+"""
+
 import tkinter as tk
 from tkcalendar import Calendar
 
@@ -5,6 +9,18 @@ from tkcalendar import Calendar
 class CalendarView(tk.Frame):
     def __init__(self, master, on_date_selected):
         super().__init__(master)
+<<<<<<< HEAD
+
+        self.on_date_selected = on_date_selected
+
+        tk.Label(self, text="日付選択画面", font=("Arial", 18)).pack(pady=20)
+
+        # date_patternを明示することで、実行環境のロケールによって
+        # get_date()の書式が変わるのを防ぐ。
+        # ("%Y-%m-%d"形式で統一し、controllers/models側もこれに合わせている)
+        self.calendar = Calendar(
+            self, selectmode="day", date_pattern="yyyy-mm-dd"
+=======
 
         self.on_date_selected = on_date_selected
 
@@ -18,13 +34,18 @@ class CalendarView(tk.Frame):
             self,
             selectmode="day",
             date_pattern="yyyy-mm-dd"
+>>>>>>> main
         )
         self.calendar.pack(pady=20)
 
         tk.Button(
+<<<<<<< HEAD
+            self, text="この日付を選択して次へ", command=self.select_date
+=======
             self,
             text="この日付を選択して次へ",
             command=self.select_date
+>>>>>>> main
         ).pack(pady=10)
 
     def select_date(self):
