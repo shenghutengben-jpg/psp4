@@ -1,39 +1,31 @@
+"""
+日付選択画面。
+"""
+
 import tkinter as tk
-from tkinter import messagebox
 from tkcalendar import Calendar
 
 
-class CalendarView:
-    def __init__(self, app):
-        self.app = app
+class CalendarView(tk.Frame):
+    def __init__(self, master, on_date_selected):
+        super().__init__(master)
 
-        tk.Label(
-            app.container,
-            text="日付選択",
-            font=("Arial", 24, "bold")
-        ).pack(pady=20)
+        self.on_date_selected = on_date_selected
 
-        tk.Label(
-            app.container,
-            text="日付を選択してください。",
-            font=("Arial", 14)
-        ).pack()
+        tk.Label(self, text="日付選択画面", font=("Arial", 18)).pack(pady=20)
 
-        self.calendar = Calendar(app.container, date_pattern="yyyy-mm-dd")
+        # date_patternを明示することで、実行環境のロケールによって
+        # get_date()の書式が変わるのを防ぐ。
+        # ("%Y-%m-%d"形式で統一し、controllers/models側もこれに合わせている)
+        self.calendar = Calendar(
+            self, selectmode="day", date_pattern="yyyy-mm-dd"
+        )
         self.calendar.pack(pady=20)
 
         tk.Button(
-            app.container,
-            text="この日付で開始",
-            command=self.select_date
-        ).pack(pady=20)
+            self, text="この日付を選択して次へ", command=self.select_date
+        ).pack(pady=10)
 
     def select_date(self):
-        date = self.calendar.get_date()
-
-        if not date:
-            messagebox.showerror("エラー", "日付を選択してください")
-            return
-
-        self.app.selected_date = date
-        self.app.show_crew_list_view()
+        selected_date = self.calendar.get_date()
+        self.on_date_selected(selected_date)

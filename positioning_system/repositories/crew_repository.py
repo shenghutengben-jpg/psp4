@@ -1,18 +1,14 @@
-import json
-from pathlib import Path
+from models import Crew
+from repositories._base import load_json_list, save_json_list
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "crews.json"
+FILENAME = "crews.json"
 
-def load_crews():
-    if not DATA_PATH.exists():
-        return []
 
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+def load_crews() -> list[Crew]:
+    raw_list = load_json_list(FILENAME)
+    return [Crew.from_dict(raw) for raw in raw_list]
 
-def save_crews(crews):
-    DATA_PATH.parent.mkdir(exist_ok=True)
 
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(crews, f, ensure_ascii=False, indent=2)
+def save_crews(crews: list[Crew]) -> None:
+    raw_list = [crew.to_dict() for crew in crews]
+    save_json_list(FILENAME, raw_list)

@@ -1,18 +1,14 @@
-import json
-from pathlib import Path
+from models import Assignment
+from repositories._base import load_json_list, save_json_list
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "assignments.json"
+FILENAME = "assignments.json"
 
-def load_assignments():
-    if not DATA_PATH.exists():
-        return []
 
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+def load_assignments() -> list[Assignment]:
+    raw_list = load_json_list(FILENAME)
+    return [Assignment.from_dict(raw) for raw in raw_list]
 
-def save_assignments(assignments):
-    DATA_PATH.parent.mkdir(exist_ok=True)
 
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(assignments, f, ensure_ascii=False, indent=2)
+def save_assignments(assignments: list[Assignment]) -> None:
+    raw_list = [assignment.to_dict() for assignment in assignments]
+    save_json_list(FILENAME, raw_list)

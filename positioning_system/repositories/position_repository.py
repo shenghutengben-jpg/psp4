@@ -1,18 +1,14 @@
-import json
-from pathlib import Path
+from models import Position
+from repositories._base import load_json_list, save_json_list
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "positions.json"
-    
-def load_positions():
-    if not DATA_PATH.exists():
-        return []
+FILENAME = "positions.json"
 
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
 
-def save_positions(positions):
-    DATA_PATH.parent.mkdir(exist_ok=True)
+def load_positions() -> list[Position]:
+    raw_list = load_json_list(FILENAME)
+    return [Position.from_dict(raw) for raw in raw_list]
 
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(positions, f, ensure_ascii=False, indent=2)
+
+def save_positions(positions: list[Position]) -> None:
+    raw_list = [position.to_dict() for position in positions]
+    save_json_list(FILENAME, raw_list)
