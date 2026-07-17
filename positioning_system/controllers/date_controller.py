@@ -119,3 +119,43 @@ def validate_work_time(start_time, end_time):
 
     if start_minutes >= end_minutes:
         raise ValueError("出勤時間は退勤時間より前にしてください")
+    
+def update_schedule(schedule_id, crew_name, start_time, end_time):
+    """
+    指定した schedule_id の勤務予定を編集する。
+    クルー名が未登録なら crews.json に追加し、その crew_id を使う。
+    """
+
+    validate_work_time(start_time, end_time)
+
+    schedules = load_schedules()
+    crew = get_or_create_crew(crew_name)
+
+    for schedule in schedules:
+        if schedule["id"] == schedule_id:
+            schedule["crew_id"] = crew["id"]
+            schedule["start_time"] = start_time
+            schedule["end_time"] = end_time
+
+            save_schedules(schedules)
+            return schedule
+
+    return None
+
+
+def delete_schedule(schedule_id):
+    """
+    指定した schedule_id の勤務予定を削除する。
+    """
+
+    schedules = load_schedules()
+
+    new_schedules = []
+
+    for schedule in schedules:
+        if schedule["id"] != schedule_id:
+            new_schedules.append(schedule)
+
+    save_schedules(new_schedules)
+
+    return new_schedules
