@@ -26,5 +26,12 @@
     "crew_id": 4,
     "start_time": "01:00",
     "end_time": "09:00"
+  },
+  {
+    "id": 5,
+    "date": "2026-07-17",
+    "crew_id": 5,
+    "start_time": "09:00",
+    "end_time": "18:00"
   }
 ]
