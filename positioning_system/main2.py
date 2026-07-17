@@ -1,44 +1,75 @@
-from repositories.assignment_repository import load_assignments
-from repositories.crew_repository import load_crews
-from repositories.time_slot_repository import load_time_slots
-from repositories.position_repository import load_positions
+import tkinter as tk
+
+from views.calendar_view import CalendarView
+from views.crew_form_view import CrewFormView
+from views.crew_list_view import CrewListView
 
 
-def find_by_id(items, item_id):
-    for item in items:
-        if item["id"] == item_id:
-            return item
-    return None
+class DebugApp:
+    def __init__(self, root):
+        self.root = root
+        self.current_frame = None
 
+        self.selected_date = None
 
-def print_assignments_readable():
-    assignments = load_assignments()
-    crews = load_crews()
-    time_slots = load_time_slots()
-    positions = load_positions()
+        self.show_calendar_view()
 
-    print("=== 配置情報（見やすい表示） ===")
+    def clear_frame(self):
+        if self.current_frame is not None:
+            self.current_frame.destroy()
 
-    for assignment in assignments:
-        crew = find_by_id(crews, assignment["crew_id"])
-        time_slot = find_by_id(time_slots, assignment["time_slot_id"])
-        position = find_by_id(positions, assignment["position_id"])
+    def show_calendar_view(self):
+        self.clear_frame()
 
-        crew_name = crew["name"] if crew else "不明なクルー"
-
-        if time_slot:
-            time_text = f'{time_slot["start_time"]}-{time_slot["end_time"]}'
-        else:
-            time_text = "不明な時間帯"
-
-        position_name = position["name"] if position else "不明なポジション"
-
-        print(
-            f'{assignment["date"]} | '
-            f'{time_text} | '
-            f'{position_name} | '
-            f'{crew_name}'
+        self.current_frame = CalendarView(
+            self.root,
+            on_date_selected=self.set_date
         )
+        self.current_frame.pack(fill=tk.BOTH, expand=True)
+
+    def show_crew_form_view(self):
+        self.clear_frame()
+
+        self.current_frame = CrewFormView(
+            self.root,
+            get_selected_date=self.get_selected_date,
+            on_next=self.show_crew_list_view,
+            on_back=self.show_calendar_view
+        )
+        self.current_frame.pack(fill=tk.BOTH, expand=True)
+
+    def show_crew_list_view(self):
+        self.clear_frame()
+
+        self.current_frame = CrewListView(
+            self.root,
+            get_selected_date=self.get_selected_date,
+            on_next=self.debug_next,
+            on_back=self.show_crew_form_view
+        )
+        self.current_frame.pack(fill=tk.BOTH, expand=True)
+
+    def set_date(self, date):
+        self.selected_date = date
+        print("選択された日付:", self.selected_date)
+        self.show_crew_form_view()
+
+    def get_selected_date(self):
+        return self.selected_date
+
+    def debug_next(self):
+        print("crew_list_view まで確認できました")
 
 
-print_assignments_readable()
+def main():
+    root = tk.Tk()
+    root.title("crew_listまでのデバッグ")
+    root.geometry("800x600")
+
+    DebugApp(root)
+
+    root.mainloop()
+
+
+if __name__ == "__main__":
+    main()

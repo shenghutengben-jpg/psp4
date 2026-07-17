@@ -1,45 +1,98 @@
 import tkinter as tk
+from tkinter import ttk, messagebox
+
+from controllers.date_controller import get_schedules_by_date
+from controllers.crew_controller import get_crew_by_id
 
 
-class CrewListView:
-    def __init__(self, app):
-        self.app = app
+class CrewListView(tk.Frame):
+    def __init__(self, master, get_selected_date, on_next, on_back):
+        super().__init__(master)
+
+        self.get_selected_date = get_selected_date
+        self.on_next = on_next
+        self.on_back = on_back
 
         tk.Label(
-            app.container,
-            text="クルー一覧",
-            font=("Arial", 22, "bold")
+            self,
+            text="クルー勤務一覧画面",
+            font=("Arial", 18)
         ).pack(pady=20)
 
-        tk.Label(
-            app.container,
-            text=f"選択日：{app.selected_date}",
-            font=("Arial", 14)
-        ).pack()
+        self.date_label = tk.Label(
+            self,
+            text=f"選択日: {self.get_selected_date()}"
+        )
+        self.date_label.pack(pady=5)
 
-        for crew in app.dummy_crews:
-            tk.Label(
-                app.container,
-                text=f'{crew["name"]} {crew["start"]}〜{crew["end"]}'
-            ).pack()
+        self.tree = ttk.Treeview(
+            self,
+            columns=("crew_name", "start_time", "end_time"),
+            show="headings",
+            height=12
+        )
 
-        button_frame = tk.Frame(app.container)
-        button_frame.pack(pady=20)
+        self.tree.heading("crew_name", text="クルー名")
+        self.tree.heading("start_time", text="出勤時間")
+        self.tree.heading("end_time", text="退勤時間")
+
+        self.tree.column("crew_name", width=180)
+        self.tree.column("start_time", width=120)
+        self.tree.column("end_time", width=120)
+
+        self.tree.pack(pady=10)
+
+        button_frame = tk.Frame(self)
+        button_frame.pack(pady=10)
 
         tk.Button(
             button_frame,
-            text="クルーを追加する",
-            command=app.show_crew_form_view
-        ).grid(row=0, column=0, padx=10)
+            text="一覧更新",
+            command=self.refresh
+        ).grid(row=0, column=0, padx=5)
+
+        tk.Button(
+            button_frame,
+            text="勤務登録へ戻る",
+            command=self.on_back
+        ).grid(row=0, column=1, padx=5)
 
         tk.Button(
             button_frame,
             text="時間帯選択へ",
-            command=app.show_time_slot_view
-        ).grid(row=0, column=1, padx=10)
+            command=self.on_next
+        ).grid(row=0, column=2, padx=5)
 
-        tk.Button(
-            button_frame,
-            text="戻る",
-            command=app.show_calendar_view
-        ).grid(row=0, column=2, padx=10)
+        self.refresh()
+
+    def refresh(self):
+        date = self.get_selected_date()
+
+        if not date:
+            messagebox.showerror("エラー", "日付が選択されていません")
+            return
+
+        self.date_label.config(text=f"選択日: {date}")
+
+        for item in self.tree.get_children():
+            self.tree.delete(item)
+
+        schedules = get_schedules_by_date(date)
+
+        for schedule in schedules:
+            crew = get_crew_by_id(schedule["crew_id"])
+
+            if crew is None:
+                crew_name = "不明なクルー"
+            else:
+                crew_name = crew["name"]
+
+            self.tree.insert(
+                "",
+                tk.END,
+                values=(
+                    crew_name,
+                    schedule["start_time"],
+                    schedule["end_time"]
+                )
+            )
