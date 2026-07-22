@@ -1,139 +1,54 @@
-from repositories.assignment_repository import load_assignments, save_assignments
+"""
+クルーの日ごとの勤務予定（Schedule）を管理するコントローラー。
+
+以前は date_controller.py という名前で、
+「日付そのものの管理」と「クルーの勤務登録」という
+別々の役割が1ファイルに混在していたため、
+役割が伝わりやすいよう schedule_controller に改名した。
+（このファイルをimportしている箇所は、次のviews更新時に
+ controllers.date_controller → controllers.schedule_controller
+ へ書き換える）
+"""
+
+from models import Schedule
+from repositories.schedule_repository import load_schedules, save_schedules
+from controllers.crew_controller import get_or_create_crew
 
 
-def get_new_assignment_id(assignments):
-    """
-    新しい配置IDを作成する。
-    assignments が空なら 1、
-    すでにデータがあれば最大ID + 1 にする。
-    """
-
-    if not assignments:
+def _generate_new_id(schedules: list[Schedule]) -> int:
+    if not schedules:
         return 1
+    return max(schedule.id for schedule in schedules) + 1
 
-    return max(assignment["id"] for assignment in assignments) + 1
 
-
-def assign_crew_to_position(date, time_slot_id, position_id, crew_id):
+def add_schedule_by_crew_name(
+    date: str,
+    crew_name: str,
+    start_time: str,
+    end_time: str,
+) -> Schedule:
     """
-    指定した日付・時間帯・ポジションにクルーを配置する。
-
-    ルール:
-    1. 同じ日付・時間帯・ポジションに配置があれば更新する
-    2. 同じ日付・時間帯に同じクルーが別ポジションにいたら配置しない
+    クルー名を指定して勤務予定を登録する。
+    同名のクルーが未登録であれば自動的に新規登録する。
     """
+    crew = get_or_create_crew(crew_name)
 
-    assignments = load_assignments()
+    schedules = load_schedules()
 
-    # まず、同じ日付・時間帯に同じクルーが別ポジションへ配置されていないか確認
-    for assignment in assignments:
-        if (
-            assignment["date"] == date
-            and assignment["time_slot_id"] == time_slot_id
-            and assignment["crew_id"] == crew_id
-            and assignment["position_id"] != position_id
-        ):
-            print("エラー: このクルーは同じ時間帯に別のポジションへ配置されています")
-            return None
+    new_schedule = Schedule(
+        id=_generate_new_id(schedules),
+        date=date,
+        crew_id=crew.id,
+        start_time=start_time,
+        end_time=end_time,
+    )
 
-    # すでに同じ枠の配置があるか確認
-    for assignment in assignments:
-        if (
-            assignment["date"] == date
-            and assignment["time_slot_id"] == time_slot_id
-            and assignment["position_id"] == position_id
-        ):
-            assignment["crew_id"] = crew_id
-            save_assignments(assignments)
-            return assignment
+    schedules.append(new_schedule)
+    save_schedules(schedules)
 
-    # なければ新しく追加する
-    new_assignment = {
-        "id": get_new_assignment_id(assignments),
-        "date": date,
-        "time_slot_id": time_slot_id,
-        "position_id": position_id,
-        "crew_id": crew_id
-    }
-
-    assignments.append(new_assignment)
-    save_assignments(assignments)
-
-    return new_assignment
-
-def get_assignments_by_date(date):
-    """
-    指定した日付の配置一覧を取得する。
-    """
-
-    assignments = load_assignments()
-
-    result = []
-
-    for assignment in assignments:
-        if assignment["date"] == date:
-            result.append(assignment)
-
-    return result
+    return new_schedule
 
 
-def get_assignments_by_date_and_time_slot(date, time_slot_id):
-    """
-    指定した日付・時間帯の配置一覧を取得する。
-    """
-
-    assignments = load_assignments()
-
-    result = []
-
-    for assignment in assignments:
-        if (
-            assignment["date"] == date
-            and assignment["time_slot_id"] == time_slot_id
-        ):
-            result.append(assignment)
-
-    return result
-
-
-def get_assignment_by_position(date, time_slot_id, position_id):
-    """
-    指定した日付・時間帯・ポジションの配置を1件取得する。
-    見つからなければ None を返す。
-    """
-
-    assignments = load_assignments()
-
-    for assignment in assignments:
-        if (
-            assignment["date"] == date
-            and assignment["time_slot_id"] == time_slot_id
-            and assignment["position_id"] == position_id
-        ):
-            return assignment
-
-    return None
-
-
-def delete_assignment(date, time_slot_id, position_id):
-    """
-    指定した日付・時間帯・ポジションの配置を削除する。
-    """
-
-    assignments = load_assignments()
-
-    new_assignments = []
-
-    for assignment in assignments:
-        if (
-            assignment["date"] == date
-            and assignment["time_slot_id"] == time_slot_id
-            and assignment["position_id"] == position_id
-        ):
-            continue
-
-        new_assignments.append(assignment)
-
-    save_assignments(new_assignments)
-
-    return new_assignments
+def get_schedules_by_date(date: str) -> list[Schedule]:
+    schedules = load_schedules()
+    return [schedule for schedule in schedules if schedule.date == date]

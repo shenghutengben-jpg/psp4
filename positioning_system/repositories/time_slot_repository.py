@@ -1,18 +1,14 @@
-import json
-from pathlib import Path
+from models import TimeSlot
+from repositories._base import load_json_list, save_json_list
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_PATH = BASE_DIR / "data" / "time_slots.json"
+FILENAME = "time_slots.json"
 
-def load_time_slots():
-    if not DATA_PATH.exists():
-        return []
 
-    with open(DATA_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+def load_time_slots() -> list[TimeSlot]:
+    raw_list = load_json_list(FILENAME)
+    return [TimeSlot.from_dict(raw) for raw in raw_list]
 
-def save_time_slots(time_slots):
-    DATA_PATH.parent.mkdir(exist_ok=True)
 
-    with open(DATA_PATH, "w", encoding="utf-8") as f:
-        json.dump(time_slots, f, ensure_ascii=False, indent=2)
+def save_time_slots(time_slots: list[TimeSlot]) -> None:
+    raw_list = [time_slot.to_dict() for time_slot in time_slots]
+    save_json_list(FILENAME, raw_list)
