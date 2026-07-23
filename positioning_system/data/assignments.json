@@ -5,5 +5,236 @@
     "time_slot_id": 13,
     "position_id": 2,
     "crew_id": 1
+  },
+  {
+    "id": 2,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 5,
+    "crew_id": 14
+  },
+  {
+    "id": 3,
+    "date": "2026-07-23",
+    "time_slot_id": 19,
+    "position_id": 5,
+    "crew_id": 7
+  },
+  {
+    "id": 4,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 1,
+    "crew_id": 10
+  },
+  {
+    "id": 5,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 2,
+    "crew_id": 1
+  },
+  {
+    "id": 6,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 3,
+    "crew_id": 3
+  },
+  {
+    "id": 7,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 4,
+    "crew_id": 5
+  },
+  {
+    "id": 8,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 5,
+    "crew_id": 7
+  },
+  {
+    "id": 9,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 6,
+    "crew_id": 8
+  },
+  {
+    "id": 10,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 7,
+    "crew_id": 6
+  },
+  {
+    "id": 11,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 8,
+    "crew_id": 9
+  },
+  {
+    "id": 12,
+    "date": "2026-07-24",
+    "time_slot_id": 14,
+    "position_id": 9,
+    "crew_id": 11
+  },
+  {
+    "id": 13,
+    "date": "2026-07-24",
+    "time_slot_id": 23,
+    "position_id": 3,
+    "crew_id": 15
+  },
+  {
+    "id": 14,
+    "date": "2026-07-24",
+    "time_slot_id": 23,
+    "position_id": 4,
+    "crew_id": 17
+  },
+  {
+    "id": 15,
+    "date": "2026-07-24",
+    "time_slot_id": 23,
+    "position_id": 5,
+    "crew_id": 18
+  },
+  {
+    "id": 16,
+    "date": "2026-07-24",
+    "time_slot_id": 23,
+    "position_id": 6,
+    "crew_id": 19
+  },
+  {
+    "id": 17,
+    "date": "2026-07-24",
+    "time_slot_id": 23,
+    "position_id": 7,
+    "crew_id": 20
+  },
+  {
+    "id": 18,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 1,
+    "crew_id": 4
+  },
+  {
+    "id": 19,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 2,
+    "crew_id": 5
+  },
+  {
+    "id": 20,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 3,
+    "crew_id": 1
+  },
+  {
+    "id": 21,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 4,
+    "crew_id": 7
+  },
+  {
+    "id": 22,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 5,
+    "crew_id": 9
+  },
+  {
+    "id": 23,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 6,
+    "crew_id": 11
+  },
+  {
+    "id": 24,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 7,
+    "crew_id": 18
+  },
+  {
+    "id": 25,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 8,
+    "crew_id": 2
+  },
+  {
+    "id": 26,
+    "date": "2026-07-23",
+    "time_slot_id": 14,
+    "position_id": 9,
+    "crew_id": 3
+  },
+  {
+    "id": 27,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 1,
+    "crew_id": 3
+  },
+  {
+    "id": 28,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 2,
+    "crew_id": 6
+  },
+  {
+    "id": 29,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 3,
+    "crew_id": 10
+  },
+  {
+    "id": 30,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 4,
+    "crew_id": 12
+  },
+  {
+    "id": 31,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 6,
+    "crew_id": 16
+  },
+  {
+    "id": 32,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 7,
+    "crew_id": 19
+  },
+  {
+    "id": 33,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 8,
+    "crew_id": 25
+  },
+  {
+    "id": 34,
+    "date": "2026-07-23",
+    "time_slot_id": 17,
+    "position_id": 9,
+    "crew_id": 7
   }
 ]
