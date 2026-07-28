@@ -9,6 +9,8 @@ from .crew_controller import (
 from .schedule_controller import (
     add_schedule_by_crew_name,
     get_schedules_by_date,
+    delete_schedule,
+    update_schedule,
 )
 from .position_controller import (
     get_all_positions,

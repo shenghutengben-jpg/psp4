@@ -52,3 +52,37 @@ def add_schedule_by_crew_name(
 def get_schedules_by_date(date: str) -> list[Schedule]:
     schedules = load_schedules()
     return [schedule for schedule in schedules if schedule.date == date]
+
+def delete_schedule(schedule_id: int) -> None:
+    schedules = load_schedules()
+
+    remaining = [
+        schedule
+        for schedule in schedules
+        if schedule.id != schedule_id
+    ]
+
+    save_schedules(remaining)
+
+def update_schedule(
+    schedule_id: int,
+    crew_name: str,
+    start_time: str,
+    end_time: str,
+):
+    schedules = load_schedules()
+
+    # 入力された名前のクルーを取得
+    # 未登録なら新しく作成する
+    crew = get_or_create_crew(crew_name)
+
+    for schedule in schedules:
+        if schedule.id == schedule_id:
+            schedule.crew_id = crew.id
+            schedule.start_time = start_time
+            schedule.end_time = end_time
+
+            save_schedules(schedules)
+            return schedule
+
+    return None
