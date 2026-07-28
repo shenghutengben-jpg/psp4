@@ -171,9 +171,6 @@ deactivate
 ## ディレクトリ構成
 
 ```text
-## ディレクトリ構成
-
-```text
 psp4/
 ├─ README.md
 └─ positioning_system/
