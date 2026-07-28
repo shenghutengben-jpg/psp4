@@ -171,15 +171,39 @@ deactivate
 ## ディレクトリ構成
 
 ```text
+## ディレクトリ構成
+
+```text
 psp4/
 ├─ README.md
 └─ positioning_system/
    ├─ main.py
    ├─ requirements.txt
    ├─ controllers/
+   │  ├─ assignment_controller.py
+   │  ├─ crew_controller.py
+   │  ├─ position_controller.py
+   │  ├─ schedule_controller.py
+   │  └─ time_slot_controller.py
    ├─ models/
+   │  ├─ assignment.py
+   │  ├─ crew.py
+   │  ├─ position.py
+   │  ├─ schedule.py
+   │  └─ time_slot.py
    ├─ repositories/
+   │  ├─ _base.py
+   │  ├─ assignment_repository.py
+   │  ├─ crew_repository.py
+   │  ├─ position_repository.py
+   │  ├─ schedule_repository.py
+   │  └─ time_slot_repository.py
    ├─ views/
+   │  ├─ calendar_view.py
+   │  ├─ crew_form_view.py
+   │  ├─ crew_list_view.py
+   │  ├─ position_edit_view.py
+   │  └─ time_slot_view.py
    └─ data/
       ├─ assignments.json
       ├─ crews.json
