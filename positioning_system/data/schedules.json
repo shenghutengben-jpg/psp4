@@ -145,26 +145,5 @@
     "crew_id": 23,
     "start_time": "12:00",
     "end_time": "18:00"
-  },
-  {
-    "id": 25,
-    "date": "2026-07-23",
-    "crew_id": 25,
-    "start_time": "14:00",
-    "end_time": "20:00"
-  },
-  {
-    "id": 26,
-    "date": "2026-07-23",
-    "crew_id": 21,
-    "start_time": "12:00",
-    "end_time": "18:00"
-  },
-  {
-    "id": 27,
-    "date": "2026-07-23",
-    "crew_id": 21,
-    "start_time": "12:00",
-    "end_time": "18:00"
   }
 ]
